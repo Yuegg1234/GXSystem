@@ -1,0 +1,228 @@
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    title TripleBit Visualization
+    // <link href="./lib/jquerymobile/jquery.mobile.min.css" rel="stylesheet">
+  body(style='margin:20px;')
+    nav.navbar.navbar-fixed-top.navbar-inverse
+      .navbar-header
+        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href='/') 大规模关联数据查询处理系统TripleBit
+      #navbar.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li.active
+            a(href='/') 主页
+          //li
+            a(href='exampledata.html') 性能对比
+    br
+    br
+    .container
+      .page-header
+        h4
+          strong
+            | TripleBit是本中心研发的关联数据存储及查询的数据库系统，可处理Billion级规模的图数据。
+            br
+            | 与国际上同类系统，如RDF-3X、MonetDB等相比，实现了几十倍的性能提升。
+            strong
+      section#info
+        .container-fluid
+          .row
+            .col-md-3
+              #accordion.panel-group(role='tablist', aria-multiselectable='true')
+                .panel.panel-default
+                  #headingAdvSearch.panel-heading(role='tab')
+                    h4.panel-title
+                      a(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseAdvSearch', aria-expanded='true', aria-controls='collapseAdvSearch')
+                        | 查询选项
+                  #collapseAdvSearch.panel-collapse.collapse.in(role='tabpanel', aria-labelledby='headingAdvSearch')
+                    .panel-body
+                      .form-group
+                        .input-group.input-group-lg
+                          span#sizing-addon1.input-group-addon 主叫人
+                          input#caller.form-control(type='text', placeholder='11位手机号', aria-describedby='sizing-addon1')
+                        .input-group.input-group-lg
+                          span#sizing-addon1.input-group-addon 被叫人
+                          input#answeree.form-control(type='text', placeholder='11位手机号', aria-describedby='sizing-addon1')
+                        .input-group.input-group-lg
+                          label.input-group-addon 通话日期
+                          .input-group.date.form_date.input-group-lg(data-date='', data-date-format='yyyy-mm-dd', data-link-format='yyyy-mm-dd')
+                            input#date.form-control(type='text', value='', readonly='')
+                            span.input-group-addon
+                              span.glyphicon.glyphicon-calendar
+                        //.input-group.input-group-lg
+                          label.input-group-addon 通话日期
+                          table.input-group-addon
+                            tr
+                              td
+                                .input-group.date.form_date.input-group-lg(data-date='', data-date-format='yyyy-mm-dd', data-link-format='yyyy-mm-dd')
+                                  input#date.form-control(type='text', value='', readonly='')
+                                  span.input-group-addon
+                                    span.glyphicon.glyphicon-calendar
+                              td
+                                label(for='input002')  至 
+                              td
+                                .input-group.date.form_date.input-group-lg(data-date='', data-date-format='yyyy-mm-dd', data-link-format='yyyy-mm-dd')
+                                  input#date.form-control(type='text', value='', readonly='')
+                                  span.input-group-addon
+                                    span.glyphicon.glyphicon-calendar
+                        //.input-group.input-group-lg
+                          span#sizing-addon1.input-group-addon 通话地点
+                          input#where.form-control(type='text', placeholder='Username', aria-describedby='sizing-addon1')
+                        .input-group.input-group-lg
+                          span#sizing-addon1.input-group-addon 通话时长
+                          table.input-group-addon
+                            tr
+                              td
+                                input#minDuration.form-control(type='text')
+                              td
+                                label 至 
+                              td
+                                input#maxDuration.form-control(type='text')
+                              td
+                                label 秒
+                      .form-group
+                        button.btn.btn-primary(onclick='getQueryResult()', style='width:100%') 查询
+                      //label 时间: 
+                      //label#timevalue
+                      //label ms
+                      //br
+                      // &nbsp;&nbsp;
+                      //label 结果: 
+                      //label#resultsvalue
+                      //label 条记录
+                      #queryLoader.queryLoader(style='text-align:center;')
+                        img#imgLoader1(src='images/loader.gif')
+                      #queryResult.queryResult
+                // Filter
+                .panel.panel-default
+                  #headingUsrPref.panel-heading(role='tab')
+                    h4.panel-title
+                      a.collapsed(role='button', data-toggle='collapse', data-parent='#accordion', href='#collapseUsrPref', aria-expanded='false', aria-controls='collapseUsrPref')
+                        | 筛选定制
+                  #collapseUsrPref.panel-collapse.collapse(role='tabpanel', aria-labelledby='headingUsrPref')
+                    .panel-body
+                      strong 通用特性
+                      .checkbox
+                        label
+                          input#chkToDisplayAllText(type='checkbox', onclick='toDisplayAllText(this);', checked='')
+                          | 显示标签
+                      .checkbox
+                        label
+                          input#chkToMouseOver(type='checkbox', onclick='toMouseOver(this);', checked='')
+                          | 鼠标悬停
+                    .panel-body
+                      strong 谓词过滤
+                      #tblProperties
+                        .checkbox
+                          label(title='rdf:type')
+                            input(type='checkbox', value='', checked='')
+                            | rdf:type
+                        .checkbox
+                          label(title='rdfs:subClassOf')
+                            input(type='checkbox', value='', checked='')
+                            | rdfs:subClassOf
+                        .checkbox
+                          label(title='rdfs:seeAlso')
+                            input(type='checkbox', value='', checked='')
+                            | rdfs:seeAlso
+                        .checkbox
+                          label(title='owl:sameAs')
+                            input(type='checkbox', value='', checked='')
+                            | owl:sameAs
+            .col-md-9
+              .panel.panel-default
+                .panel-heading
+                  h3.panel-title 展示
+                  ul.list-inline.panel-actions
+                    li
+                      a#panel-fullscreen(href='#', role='button', title='Toggle fullscreen')
+                        i.glyphicon.glyphicon-resize-full.glyphicon-fullscreen
+                .panel-body(align='center')
+                  ul.nav.nav-tabs(role='tablist')
+                    li.active(role='presentation')
+                      a(href='#tabsvg', aria-controls='tabsvg', role='tab', data-toggle='tab' ) 图可视化
+                    li(role='presentation')
+                      a(href='#callPlace', aria-controls='callPlace', role='tab', data-toggle='tab' onclick='mapShowOrHide([])') 通话地点
+                    li(role='presentation')
+                      a(href='#tabrdf', aria-controls='tabrdf', role='tab', data-toggle='tab') RDF三元组
+                    li(role='presentation')
+                      a(href='#tabresult', aria-controls='tabresult', role='tab', data-toggle='tab' ) 查询分析结果
+                    li(role='presentation')
+                      a(href='#callRecords', aria-controls='callRecords', role='tab', data-toggle='tab' ) 通话记录
+                  .tab-content
+                    #tabsvg.tab-pane.active(role='tabpanel')
+                      #svg-body.panel-body
+                    #callPlace.tab-pane(role='tabpanel')
+                      #map-wrap.panel-body
+                    #tabrdf.tab-pane(role='tabpanel')
+                      table.table.table-hover
+                        thead
+                          tr
+                            th No.
+                            th Subject
+                            th Predicate
+                            th Object
+                            // <th>Score</th>
+                        tbody#tblBodyRDF
+                          tr
+                            td 0
+                            td :s
+                            td :p
+                            td :o
+                            // <td>0.2</td>
+                    #tabresult.tab-pane(role='tabpanel')
+                      div(style="text-align:left")
+                        br
+                        label 通话总数：
+                        label#calls
+                        label 次
+                        br
+                        label 平均时长：
+                        label#avrTime
+                        label 秒
+                      #top10(style="display: inline-block")
+                      #callTimePeak(style="display: inline-block")
+                    #callRecords.tab-pane(role='tabpanel')
+                      table.table.table-hover
+                        thead
+                          tr
+                            th No.
+                            th 主叫人
+                            th 被叫人
+                            th 通话时间
+                            th 通话时长(秒)
+                            th 通话地点
+                        tbody#callRecordsBody
+                          tr
+                            td 0
+                            td 18011111111
+                            td 18011111112
+                            td 2018-04-01 10:10:00
+                            td 10
+                            td 广东省广州市从化区
+
+  link(href='./lib/jqueryui/jquery-ui.min.css', rel='stylesheet')
+  link(href='./lib/jqueryui/jquery-ui.structure.min.css', rel='stylesheet')
+  link(href='./lib/jqueryui/jquery-ui.theme.min.css', rel='stylesheet')
+  link(href='./lib/bootstrap/css/bootstrap.css', rel='stylesheet')
+  link(href='./lib/bootstrap/css/bootstrap-theme.css', rel='stylesheet')
+  link(href='./style.css', rel='stylesheet')
+  link(href='./lib/bootstrap/css/bootstrap-datetimepicker.min.css', rel='stylesheet', media='screen')
+  script(src='./lib/jquery/jquery2.1.3.js')
+  script(src='./lib/jqueryui/jquery-ui.min.js')
+  script(src='./lib/jqueryui/jquery.ui.touch-punch.min.js')
+  // <script src="./lib/jquerymobile/jquery.mobile.min.js"></script>
+  script(src='./lib/bootstrap/js/bootstrap.min.js')
+  //script(src='./lib/d3/d3.v4.min.js')
+  script(src='./lib/d3/d3.v3.min.js')
+  script(src='./lib/echarts.min.js')
+  script(src='http://api.map.baidu.com/api?v=2.0&ak=ZSOoeMtEGK5QH1p6B1dCZ4P6sZtm1xsh')
+  script(type='text/javascript', src='./lib/bootstrap/bootstrap-datetimepicker.js', charset='UTF-8')
+  script(type='text/javascript', src='./lib/bootstrap/bootstrap-datetimepicker.zh-CN.js', charset='UTF-8')
+  script(src='./js/new.js')
+  //script(src='./js/mapShow.js')

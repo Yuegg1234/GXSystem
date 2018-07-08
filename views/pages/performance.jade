@@ -1,0 +1,73 @@
+doctype transitional
+html(xmlns="http://www.w3.org/1999/xhtml")
+  head
+    meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+    | 	
+    title TripleBit Visualization
+    // <meta name="author" content="Rathachai CHAWUTHAI">
+    // <link href="./lib/jquerymobile/jquery.mobile.min.css" rel="stylesheet">
+    link(href="./lib/jqueryui/jquery-ui.min.css", rel="stylesheet")
+    | 	
+    link(href="./lib/jqueryui/jquery-ui.structure.min.css", rel="stylesheet")
+    | 	
+    link(href="./lib/jqueryui/jquery-ui.theme.min.css", rel="stylesheet")
+    | 	
+    link(href="./lib/bootstrap/css/bootstrap.css", rel="stylesheet")
+    | 	
+    link(href="./lib/bootstrap/css/bootstrap-theme.css", rel="stylesheet")
+    | 	
+    style.
+      body > .container{
+      width:80%;
+      }
+  body(style="margin:20px;")
+    nav.navbar.navbar-fixed-top.navbar-inverse
+      // <div class="container">
+      .navbar-header
+        button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar", aria-expanded="false", aria-controls="navbar")
+          span.sr-only Toggle navigation
+          |         
+          span.icon-bar
+          |         
+          span.icon-bar
+          |         
+          span.icon-bar
+        |       
+        a.navbar-brand(href="/") 大规模关联数据查询处理系统TripleBit
+      |     
+      #navbar.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href="/") 主页
+          li.active
+            a(href="/performance") 性能对比
+      // /.nav-collapse
+      // </div>
+      // /.container
+    // /.navbar
+    br
+    br
+    .container
+      .page-header
+        h1
+      | 	
+      section#doc-example
+        .panel.panel-default
+          .panel-body
+            h3 磁盘占用空间大小对比
+            | 				
+            img(src="images/xingneng1.bmp", width="100%")
+            | 					
+            code.language-html(data-lang="html")
+              h4
+                | 总体上来看，TripleBit所占有的存储空间要小于RDF-3X所占有的存储空间：比RDF-3X的存储空间消耗降低了约40%。和MonetDB占用的存储空间大致相同。
+          | 			
+          | 			
+          .panel-body
+            h3 LUBM-100M的查询时间对比
+            | 				
+            img(src="images/xingneng2.bmp", width="100%")
+            | 					
+            code.language-html(data-lang="html")
+              h4
+                | 可以看出，TripleBit在整体上比RDF-3X和MonetDB速度快。对于LUBM-100M的数据集，TripleBit的平均性能是RDF-3X的11.5倍，是MonetDB的128倍

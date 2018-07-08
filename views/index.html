@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>TripleBit Visualization</title>
+	<!--<link href="./lib/jquerymobile/jquery.mobile.min.css" rel="stylesheet">-->
+</head>
+
+<body style="margin:20px;">
+	<nav class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+			 aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="index.html">大规模关联数据查询处理系统TripleBit</a>
+		</div>
+		<div id="navbar" class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class='active'>
+					<a href='index.html'>主页</a>
+				</li>
+				<li>
+					<a href='exampledata.html'>性能对比</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+
+	<br />
+	<br />
+
+
+	<div class="container">
+		<div class="page-header">
+			<h4>
+				<strong>TripleBit是本中心研发的关联数据存储及查询的数据库系统，可处理Billion级规模的图数据。</br>与国际上同类系统，如RDF-3X、MonetDB等相比，实现了几十倍的性能提升。
+					<strong/>
+			</h4>
+		</div>
+
+		<section id="info">
+
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+							<!-- SEARCH -->
+							<!--<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="headingSearch">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse"
+										data-parent="#accordion" href="#collapseSearch"
+										aria-expanded="true" aria-controls="collapseSearch">
+										Create a Graph </a>
+								</h4>
+							</div>
+							<div id="collapseSearch" class="panel-collapse collapse in"
+								role="tabpanel" aria-labelledby="headingSearch">
+								<div class="panel-body">
+									<div class="form-group">
+										<label for="txtEndPoint">Enter a URL of JSON file</label> <input
+											type="text" class="form-control" id="txtQuri"
+											value="./data/lodac_bubo.json">
+									</div>
+									<div class="form-group">
+										<button class="btn btn-primary" onclick="queryGraph(false)"
+											style="width:100%">Visualize</button>
+									</div>
+									<div id="queryLoader" class="queryLoader"
+										style="text-align:center;">
+										<img id="imgLoader1" src="images/loader.gif" />
+									</div>
+									<div id="queryResult" class="queryResult"></div>
+								</div>
+							</div>
+						</div> -->
+
+							<!-- AdvancedSearch -->
+							<!-- Use it for advance search -->
+
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingAdvSearch">
+									<h4 class="panel-title">
+										<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAdvSearch" aria-expanded="true" aria-controls="collapseAdvSearch">
+											SPARQL 查询 </a>
+									</h4>
+								</div>
+								<div>
+									<div class="input-group input-group-lg">
+										<span class="input-group-addon" id="sizing-addon1">@</span>
+										<input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+									</div>
+									<div class="input-group input-group-lg">
+										<span class="input-group-addon" id="sizing-addon1">@</span>
+										<input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+									</div>
+									<div class="input-group input-group-lg">
+										<span class="input-group-addon" id="sizing-addon1">@</span>
+										<input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+									</div>
+									<div class="input-group input-group-lg">
+										<span class="input-group-addon" id="sizing-addon1">@</span>
+										<input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+									</div>
+								</div>
+								<div id="collapseAdvSearch" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingAdvSearch">
+									<div class="panel-body">
+										<div class="form-group">
+											<label for="txtSparql" id="qqqq">SPARQL (construct)&nbsp;&nbsp;&nbsp;</label>
+											<label class="dropdown">
+												<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">语句
+													<b class="caret"></b>
+												</button>
+												<ul class="dropdown-menu">
+													<li>
+														<a id="query1" href="#">Query 1</a>
+													</li>
+													<li>
+														<a id="query2" href="#">Query 2</a>
+													</li>
+													<li>
+														<a id="query3" href="#">Query 3</a>
+													</li>
+													<li>
+														<a id="query4" href="#">Query 4</a>
+													</li>
+													<li>
+														<a id="query5" href="#">Query 5</a>
+													</li>
+													<!-- <li><a id="query6" href="#">Query 6</a></li> -->
+												</ul>
+											</label>
+											<textarea class="form-control" rows="10" id="txtSparql" readOnly="true"></textarea>
+											<!-- <textarea class="form-control" rows="15" id="txtSparql">PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> &#13;&#10;PREFIX ub: <http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#>&#13;&#10;SELECT ?x ?y ?z WHERE {&#13;&#10; ?y ub:teacherOf ?z .&#13;&#10; ?y rdf:type ub:FullProfessor .&#13;&#10; ?z rdf:type ub:Course .&#13;&#10; ?x ub:takesCourse ?z .&#13;&#10; ?x rdf:type ub:UndergraduateStudent .&#13;&#10; ?x ub:advisor ?y .&#13;&#10;}</textarea> -->
+										</div>
+										<!-- <div class="form-group">
+						      	<label for="txtEndPoint">SPARQL Endpoint</label>
+						      	<input type="text" class="form-control" id="txtEndPoint" value="http://lod.ac/species/sparql">
+						    </div> -->
+										<div class="form-group">
+											<button class="btn btn-primary" onclick="queryGraph(true)" style="width:100%">查询</button>
+
+										</div>
+										<label>时间: </label>
+										<label id="timevalue"></label>
+										<label>ms</label>
+										<br/>
+										<!-- &nbsp;&nbsp; -->
+										<label>结果: </label>
+										<label id='resultsvalue'></label>
+										<label>条记录</label>
+										<div id="queryLoader" class="queryLoader" style="text-align:center;">
+											<img id="imgLoader1" src="images/loader.gif" />
+										</div>
+										<div id="queryResult" class="queryResult"></div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Filter -->
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingUsrPref">
+									<h4 class="panel-title">
+										<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUsrPref" aria-expanded="false"
+										 aria-controls="collapseUsrPref">
+											筛选定制 </a>
+									</h4>
+								</div>
+								<div id="collapseUsrPref" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUsrPref">
+									<div class="panel-body">
+										<strong>通用特性</strong>
+										<div class="checkbox">
+											<label>
+												<input id="chkToDisplayLabel" type="checkbox" onclick="toDisplayLabel(this);" checked />显示标签</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input id="chkToDisplayAllText" type="checkbox" onclick="toDisplayAllText(this);" checked />显示标签</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input id="chkToMouseOver" type="checkbox" onclick="toMouseOver(this);" checked />鼠标悬停</label>
+										</div>
+									</div>
+									<div class="panel-body">
+										<strong>谓词过滤</strong>
+										<div id="tblProperties">
+											<div class="checkbox">
+												<label title="rdf:type">
+													<input type="checkbox" value="" checked />rdf:type</label>
+											</div>
+											<div class="checkbox">
+												<label title="rdfs:subClassOf">
+													<input type="checkbox" value="" checked />rdfs:subClassOf</label>
+											</div>
+											<div class="checkbox">
+												<label title="rdfs:seeAlso">
+													<input type="checkbox" value="" checked />rdfs:seeAlso</label>
+											</div>
+											<div class="checkbox">
+												<label title="owl:sameAs">
+													<input type="checkbox" value="" checked />owl:sameAs</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+					<div class="col-md-9">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">展示</h3>
+								<ul class="list-inline panel-actions">
+									<li>
+										<a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
+											<i class="glyphicon glyphicon-resize-full glyphicon-fullscreen"></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+
+
+							<div class="panel-body" align="center">
+								<ul class="nav nav-tabs" role="tablist">
+									<li role="presentation" class="active">
+										<a href="#tabsvg" aria-controls="tabsvg" role="tab" data-toggle="tab">图可视化</a>
+									</li>
+									<li role="presentation">
+										<a href="#tabrdf" aria-controls="tabrdf" role="tab" data-toggle="tab">RDF三元组</a>
+									</li>
+									<li role="presentation">
+										<a href="#tabresult" aria-controls="tabresult" role="tab" data-toggle="tab">查询结果</a>
+									</li>
+								</ul>
+
+
+
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active" id="tabsvg">
+										<div id="svg-body" class="panel-body">
+										</div>
+									</div>
+
+
+									<div role="tabpanel" class="tab-pane" id="tabrdf">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>No.</th>
+													<th>Subject</th>
+													<th>Predicate</th>
+													<th>Object</th>
+													<!-- <th>Score</th> -->
+												</tr>
+											</thead>
+											<tbody id="tblBodyRDF">
+												<tr>
+													<td>0</td>
+													<td>:s</td>
+													<td>:p</td>
+													<td>:o</td>
+													<!-- <td>0.2</td> -->
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<div role="tabpanel" class="tab-pane" id="tabresult">
+										<table class="table table-hover" id="tabrs">
+										</table>
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+		</section>
+		</div>
+</body>
+<link href="./lib/jqueryui/jquery-ui.min.css" rel="stylesheet">
+<link href="./lib/jqueryui/jquery-ui.structure.min.css" rel="stylesheet">
+<link href="./lib/jqueryui/jquery-ui.theme.min.css" rel="stylesheet">
+<link href="./lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="./lib/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+<link href="./style.css" rel="stylesheet">
+<script src="./lib/jquery/jquery2.1.3.js"></script>
+<script src="./lib/jqueryui/jquery-ui.min.js"></script>
+<script src="./lib/jqueryui/jquery.ui.touch-punch.min.js"></script>
+<!--<script src="./lib/jquerymobile/jquery.mobile.min.js"></script> -->
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./lib/d3/d3.v4.min.js"></script>
+<script src="new.js"></script>
+
+</html>
